@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Permutation {
     private final int[] arr;
-    private List<int[]> allPermu;
+    protected List<int[]> permu;
     
     public Permutation(int[] arrInt) {
         this.arr = arrInt;
@@ -20,16 +20,17 @@ public class Permutation {
         return arr;
     }
 
-    public List<int[]> getAllPermu() {
-        return allPermu;
+    public List<int[]> getPermu() {
+        return permu;
     }
     
     
-    public Permutation runPermutation(){
-        allPermu = new ArrayList<>();
+    public Permutation runAllPermu(){
+        permu = new ArrayList<>();
         Arrays.sort(arr);
         while(true){
-            allPermu.add(arr.clone());
+            storeData(arr);
+            
             int i; //From back to front, record a small value subscript in a sequence of values.
             int j; //From the back to the front, record the first number greater than i.
             
@@ -47,6 +48,10 @@ public class Permutation {
             reverse(arr, i+1, arr.length-1);
         }
     }
+    
+    public void storeData(int[] arrInt){
+        permu.add(arrInt.clone());
+    }
 
     private void swap(int[] arr, int i, int j) {
         int tmp = arr[i];
@@ -62,7 +67,7 @@ public class Permutation {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for(int[] arrInt : allPermu){
+        for(int[] arrInt : permu){
             sb.append("{ ");
             for(int i=0; i<arrInt.length-1; i++){
                 sb.append(arrInt[i]).append(", ");
