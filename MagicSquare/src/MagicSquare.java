@@ -6,8 +6,9 @@
 public class MagicSquare {
 
     public static void main(String[] args) {
-        int[] a = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
-        MagicPermu permu = new MagicPermu(a);
+        int[] a = {1,2,3,4,5,6,7,8,9};//,10,11,12,13,14,15,16};
+        
+        MagicPermu permu = new MagicPermu(a, 0);
         System.out.println(permu.order + ", " + permu.sum);
         for(int[] arrInt : permu.getPosPandiagonal()){
             for(int i :  arrInt){
@@ -18,6 +19,10 @@ public class MagicSquare {
         System.out.println();
         permu.runAllPermu();
         System.out.println("count : " + permu.count);
+        /*
+        tw.chuan.ethan.Permutation permu = new tw.chuan.ethan.Permutation(a);
+        permu.runAllPermu();
+        System.out.println(permu);*/
     }
     
 }

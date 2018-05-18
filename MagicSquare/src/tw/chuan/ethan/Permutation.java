@@ -1,7 +1,7 @@
 package tw.chuan.ethan;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,7 +27,7 @@ public class Permutation {
     
     public Permutation runAllPermu(){
         permu = new ArrayList<>();
-        Arrays.sort(arr);
+        //Arrays.sort(arr);
         while(true){
             storeData(arr);
             

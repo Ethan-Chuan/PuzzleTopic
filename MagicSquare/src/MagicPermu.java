@@ -1,4 +1,11 @@
 
+import java.io.DataOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import tw.chuan.ethan.Permutation;
@@ -17,12 +24,31 @@ public class MagicPermu extends Permutation{
     final int order, sum;
     private List<int[]> posPandiagonal;
     int count = 0;
+    DataOutputStream dout;
+    final Path path;
     
     public MagicPermu(int[] arrInt) {
         super(arrInt);
         this.order = (int)Math.sqrt(arrInt.length);
         this.sum = (1 + this.order*this.order)*this.order/2;
         genPosPandiagonal();
+        String fileName = "Magic Square " + this.order + " order.txt";
+        path = Paths.get(fileName);
+        if(!Files.exists(path)){
+            System.out.println("File is not found.\nCreating a new file.\n");
+            try {
+                Files.createFile(path);
+            } catch (IOException ex) {
+                System.out.println("Creating file failed.\n");
+            }
+        }else{
+            System.out.println("File is existed.\n");
+        }
+    }
+    
+    public MagicPermu(int[] arrInt, int count){
+        this(arrInt);
+        this.count = count;
     }
 
     public List<int[]> getPosPandiagonal() {
@@ -32,17 +58,25 @@ public class MagicPermu extends Permutation{
     @Override
     public void storeData(int[] arrInt) {
         if(isRowColumnMatched(arrInt) && isPandiagonalMatched(arrInt)){
-            
-            System.out.println("------ " + (++count) + " ------");
+            StringBuilder sb = new StringBuilder();
+            sb.append("---------- ").append(++count).append(" ----------\n");
             for(int i=0;i<order;i++){
                 for(int j=0;j<order;j++){
-                    System.out.print(arrInt[i*order+j] + "\t");
+                    sb.append(arrInt[i*order+j]).append("\t");
                 }
-                System.out.println();
+                sb.append("\n");
             }
-            System.out.println();
-                
-            System.out.println();
+            sb.append("\n");
+            System.out.println(sb);
+            
+            try(DataOutputStream dos = new DataOutputStream(new FileOutputStream(path.toFile(), true))) {
+                dos.writeBytes(sb.toString());
+            }catch (FileNotFoundException ex) {
+                System.out.println("File is not found.\nCreating Stream is failed.\n");
+            }catch (IOException ex) {
+                System.out.println("IOException :" + ex);
+            }
+            
             this.permu.add(arrInt.clone());
         }
     }
